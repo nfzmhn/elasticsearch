@@ -1,0 +1,71 @@
+version: "2.2"
+services:
+  ibnu01:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.11.0
+    container_name: ibnu01
+    environment:
+      - node.name=ibnu01
+      - cluster.name=es-docker-cluster
+      - discovery.seed_hosts=ibnu02,ibnu03
+      - cluster.initial_master_nodes=ibnu01,ibnu02,ibnu03
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    volumes:
+      - data01:/usr/share/elasticsearch/data
+    ports:
+      - 9201:9200
+    networks:
+      - elastic
+  ibnu02:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.11.0
+    container_name: ibnu02
+    environment:
+      - node.name=ibnu02
+      - cluster.name=es-docker-cluster
+      - discovery.seed_hosts=ibnu01,ibnu03
+      - cluster.initial_master_nodes=ibnu01,ibnu02,ibnu03
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    volumes:
+      - data02:/usr/share/elasticsearch/data
+    ports:
+      - 9202:9200
+    networks:
+      - elastic
+  ibnu03:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.11.0
+    container_name: ibnu03
+    environment:
+      - node.name=ibnu03
+      - cluster.name=es-docker-cluster
+      - discovery.seed_hosts=ibnu01,ibnu02
+      - cluster.initial_master_nodes=ibnu01,ibnu02,ibnu03
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    volumes:
+      - data03:/usr/share/elasticsearch/data
+    ports:
+      - 9203:9200
+    networks:
+      - elastic
+
+volumes:
+  data01:
+    driver: local
+  data02:
+    driver: local
+  data03:
+    driver: local
+
+networks:
+  elastic:
+    driver: bridge
