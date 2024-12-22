@@ -1,13 +1,13 @@
 version: "2.2"
 services:
-  ibnu01:
+  zidni01:
     image: docker.elastic.co/elasticsearch/elasticsearch:7.11.0
-    container_name: ibnu01
+    container_name: zidni01
     environment:
-      - node.name=ibnu01
+      - node.name=zidni01
       - cluster.name=es-docker-cluster
-      - discovery.seed_hosts=ibnu02,ibnu03
-      - cluster.initial_master_nodes=ibnu01,ibnu02,ibnu03
+      - discovery.seed_hosts=zidni02,zidni03
+      - cluster.initial_master_nodes=zidni01,zidni02,zidni03
       - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
     ulimits:
       memlock:
@@ -19,14 +19,14 @@ services:
       - 9201:9200
     networks:
       - elastic
-  ibnu02:
+  zidni02:
     image: docker.elastic.co/elasticsearch/elasticsearch:7.11.0
-    container_name: ibnu02
+    container_name: zidni02
     environment:
-      - node.name=ibnu02
+      - node.name=zidni02
       - cluster.name=es-docker-cluster
-      - discovery.seed_hosts=ibnu01,ibnu03
-      - cluster.initial_master_nodes=ibnu01,ibnu02,ibnu03
+      - discovery.seed_hosts=zidni01,zidni03
+      - cluster.initial_master_nodes=zidni01,zidni02,zidni03
       - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
     ulimits:
       memlock:
@@ -38,14 +38,14 @@ services:
       - 9202:9200
     networks:
       - elastic
-  ibnu03:
+  zidni03:
     image: docker.elastic.co/elasticsearch/elasticsearch:7.11.0
-    container_name: ibnu03
+    container_name: zidni03
     environment:
-      - node.name=ibnu03
+      - node.name=zidni03
       - cluster.name=es-docker-cluster
-      - discovery.seed_hosts=ibnu01,ibnu02
-      - cluster.initial_master_nodes=ibnu01,ibnu02,ibnu03
+      - discovery.seed_hosts=zidni01,zidni02
+      - cluster.initial_master_nodes=zidni01,zidni02,zidni03
       - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
     ulimits:
       memlock:
